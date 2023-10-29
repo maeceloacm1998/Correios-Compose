@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Correios</string>
+    <string name="title_activity_home_compose">HomeCompose</string>
+
+
+    <string name="login_button_text">Entrar</string>
+    <string name="login_text_field_email_label">Usuário</string>
+    <string name="login_text_field_email_placeholder">exemplo@gmail.com</string>
+    <string name="login_text_field_password_label">Senha</string>
+
+
+</resources>
