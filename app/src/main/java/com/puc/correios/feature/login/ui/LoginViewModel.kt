@@ -21,11 +21,7 @@ class LoginViewModel(private val getTestUseCase: GetTestUseCase) : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = getTestUseCase().single()
-                if (response.success != 0) {
-                    _uiState.value = LoginUiState.Success(response)
-                } else {
-                    _uiState.value = LoginUiState.Error(Throwable("Login failed")) // Ou uma mensagem de erro apropriada
-                }
+                _uiState.value = LoginUiState.Success(response)
             } catch (e: Exception) {
                 _uiState.value = LoginUiState.Error(e)
             }
