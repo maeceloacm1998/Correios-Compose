@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 class LoginRepositoryImpl(private val api: LoginService) : LoginRepository {
     override suspend fun getTest(): Flow<LoginResponse> {
-        return api.getTest()
+        return api.handleLogin()
     }
 }

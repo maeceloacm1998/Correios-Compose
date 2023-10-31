@@ -11,7 +11,7 @@ import org.koin.dsl.module
 
 object LoginDependencyInjection {
     val loginModules = module {
-        factory<LoginService> { LoginServiceImpl(get()) }
+        factory<LoginService> { LoginServiceImpl() }
         factory<LoginRepository> { LoginRepositoryImpl(get()) }
         factory { GetTestUseCase(get()) }
         viewModel { LoginViewModel(get()) }

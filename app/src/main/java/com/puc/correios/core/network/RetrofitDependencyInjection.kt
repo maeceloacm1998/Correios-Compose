@@ -13,14 +13,9 @@ import javax.net.ssl.X509TrustManager
 
 object RetrofitDependencyInjection {
 
-    val retrofitModules = module {
-        single { getRetrofit() }
-    }
-
-    private fun getRetrofit(): Retrofit {
-        // URL https://run.mocky.io/v3/f992f009-34ff-4932-a301-c66e90fa9b5c
+    fun getRetrofit(url: String): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://run.mocky.io/v3/")
+            .baseUrl(url)
             .client(getUnsafeOkHttpClient().build())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -31,10 +26,16 @@ object RetrofitDependencyInjection {
         try {
             val trustAllCerts = arrayOf<TrustManager>(
                 object : X509TrustManager {
-                    override fun checkClientTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+                    override fun checkClientTrusted(
+                        chain: Array<java.security.cert.X509Certificate>,
+                        authType: String
+                    ) {
                     }
 
-                    override fun checkServerTrusted(chain: Array<java.security.cert.X509Certificate>, authType: String) {
+                    override fun checkServerTrusted(
+                        chain: Array<java.security.cert.X509Certificate>,
+                        authType: String
+                    ) {
                     }
 
                     override fun getAcceptedIssuers(): Array<java.security.cert.X509Certificate> {

@@ -96,7 +96,8 @@ fun LoginFields() {
     ConstraintLayout() {
         val (tfEmail, tfPassword, btSubmit) = createRefs()
 
-        TextFieldCustom(label = stringResource(R.string.login_text_field_email_label),
+        TextFieldCustom(
+            label = stringResource(R.string.login_text_field_email_label),
             placeholder = stringResource(R.string.login_text_field_email_placeholder),
             keyboardType = KeyboardType.Email,
             onChangeListener = { email = it },

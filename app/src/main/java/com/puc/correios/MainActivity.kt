@@ -47,7 +47,6 @@ class MainActivity : ComponentActivity() {
             androidContext(this@MainActivity)
             modules(
                 listOf(
-                    RetrofitDependencyInjection.retrofitModules,
                     LoginDependencyInjection.loginModules,
                 )
             )
@@ -58,9 +57,9 @@ class MainActivity : ComponentActivity() {
     private fun navigationRoute() {
         val navController = rememberNavController()
 
-        NavHost(navController = navController, startDestination = Routes.Login.route) {
+        NavHost(navController = navController, startDestination = Routes.Home.route) {
             composable(Routes.Login.route) { LoginScreen(navController = navController) }
-            composable(Routes.Home.route) { HomeScreen(navController = navController) }
+            composable(Routes.Home.route) { HomeScreen() }
             composable(Routes.Details.route) {}
         }
     }

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -18,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -26,12 +26,16 @@ import com.puc.correios.ui.theme.DarkBlue
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFieldCustom(
-    label: String = "",
+    label: String,
     placeholder: String = "",
     keyboardType: KeyboardType = KeyboardType.Text,
-    onChangeListener: (text: String) -> Unit,
     isPasswordToggle: Boolean = false,
-    modifier: Modifier? = null
+    maxLines: Int = 1,
+    modifier: Modifier? = null,
+    onChangeListener: (text: String) -> Unit,
+    endIconImageVector: ImageVector? = null,
+    endIconDescription: String = "",
+    endIconListener: (() -> Unit)? = null
 ) {
     var text by rememberSaveable { mutableStateOf("") }
     var passwordHidden by rememberSaveable { mutableStateOf(isPasswordToggle) }
@@ -49,16 +53,23 @@ fun TextFieldCustom(
             focusedBorderColor = DarkBlue
         ),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
-        visualTransformation =
-        if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
+        visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
+        maxLines = maxLines,
         trailingIcon = {
             if (isPasswordToggle) {
                 IconButton(onClick = { passwordHidden = !passwordHidden }) {
                     val visibilityIcon =
                         if (passwordHidden) Icons.Filled.Visibility else Icons.Outlined.VisibilityOff
-                    // Please provide localized description for accessibility services
                     val description = if (passwordHidden) "Show password" else "Hide password"
                     Icon(imageVector = visibilityIcon, contentDescription = description)
+                }
+            } else {
+                IconButton(onClick = { endIconListener?.let { it() } }) {
+                    endIconImageVector?.let {
+                        Icon(
+                            imageVector = it, contentDescription = endIconDescription
+                        )
+                    }
                 }
             }
         },

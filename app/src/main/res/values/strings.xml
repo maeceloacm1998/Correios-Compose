@@ -8,5 +8,9 @@
     <string name="login_text_field_email_placeholder">exemplo@gmail.com</string>
     <string name="login_text_field_password_label">Senha</string>
 
+    <string name="home_text_field_search_placeholder">AA9999999999BR</string>
+    <string name="home_text_field_search_label">Digite o código de rastreio</string>
+    <string name="home_text_field_search_icon_description">Buscar Código de Rastreio</string>
+
 
 </resources>
