@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.puc.correios.ui.theme.DarkBlue
+import com.puc.correios.ui.theme.Yellow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,10 +48,10 @@ fun TextFieldCustom(
             text = it
             onChangeListener(it)
         },
-        label = { Text(text = label, color = DarkBlue) },
+        label = { Text(text = label, color = Yellow) },
         placeholder = { Text(placeholder) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = DarkBlue
+            focusedBorderColor = Yellow
         ),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
         visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
@@ -61,13 +62,19 @@ fun TextFieldCustom(
                     val visibilityIcon =
                         if (passwordHidden) Icons.Filled.Visibility else Icons.Outlined.VisibilityOff
                     val description = if (passwordHidden) "Show password" else "Hide password"
-                    Icon(imageVector = visibilityIcon, contentDescription = description)
+                    Icon(
+                        imageVector = visibilityIcon,
+                        contentDescription = description,
+                        tint = Yellow
+                    )
                 }
             } else {
                 IconButton(onClick = { endIconListener?.let { it() } }) {
                     endIconImageVector?.let {
                         Icon(
-                            imageVector = it, contentDescription = endIconDescription
+                            imageVector = it,
+                            contentDescription = endIconDescription,
+                            tint = Yellow
                         )
                     }
                 }

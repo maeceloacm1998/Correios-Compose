@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.puc.correios.core.network.RetrofitDependencyInjection
 import com.puc.correios.core.routes.Routes
+import com.puc.correios.feature.home.data.di.HomeDependencyInjection
 import com.puc.correios.feature.home.ui.HomeScreen
 import com.puc.correios.feature.login.data.di.LoginDependencyInjection
 import com.puc.correios.feature.login.ui.LoginScreen
@@ -48,6 +49,7 @@ class MainActivity : ComponentActivity() {
             modules(
                 listOf(
                     LoginDependencyInjection.loginModules,
+                    HomeDependencyInjection.homeModules
                 )
             )
         }
