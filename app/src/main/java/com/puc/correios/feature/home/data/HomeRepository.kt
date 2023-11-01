@@ -1,8 +1,8 @@
 package com.puc.correios.feature.home.data
 
-import com.puc.correios.feature.home.data.network.response.ValidateTokenResponse
+import com.puc.correios.feature.home.ui.model.HomeEventsModel
 import kotlinx.coroutines.flow.Flow
 
 interface HomeRepository {
-    suspend fun fetchValidateToken(): Flow<ValidateTokenResponse>
+    val tasks: Flow<List<HomeEventsModel>>
 }

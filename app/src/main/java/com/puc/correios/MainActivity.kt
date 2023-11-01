@@ -12,10 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.puc.correios.core.network.RetrofitDependencyInjection
 import com.puc.correios.core.routes.Routes
+import com.puc.correios.feature.commons.database.events.di.EventsDatabaseDependencyInjection
 import com.puc.correios.feature.home.data.di.HomeDependencyInjection
-import com.puc.correios.feature.home.ui.HomeScreen
 import com.puc.correios.feature.home.ui.Screen
 import com.puc.correios.feature.login.data.di.LoginDependencyInjection
 import com.puc.correios.feature.login.ui.LoginScreen
@@ -37,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    navigationRoute()
+                    NavigationRoute()
                 }
             }
         }
@@ -49,6 +48,7 @@ class MainActivity : ComponentActivity() {
             androidContext(this@MainActivity)
             modules(
                 listOf(
+                    EventsDatabaseDependencyInjection.eventsModules,
                     LoginDependencyInjection.loginModules,
                     HomeDependencyInjection.homeModules
                 )
@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun navigationRoute() {
+    private fun NavigationRoute() {
         val navController = rememberNavController()
 
         NavHost(navController = navController, startDestination = Routes.Home.route) {

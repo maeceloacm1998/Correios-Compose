@@ -38,6 +38,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.puc.correios.R
 import com.puc.correios.components.textfield.TextFieldCustom
 import com.puc.correios.core.utils.UiState
+import com.puc.correios.feature.home.ui.model.HomeEventsModel
 import com.puc.correios.ui.theme.CustomDimensions
 import com.puc.correios.ui.theme.Secondary
 import com.puc.correios.ui.theme.Surface
@@ -48,13 +49,13 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = koinViewModel()) {
     val lifecycle = LocalLifecycleOwner.current.lifecycle
-    val uiState by produceState<UiState<Unit>>(
+    val uiState by produceState<UiState<List<HomeEventsModel>>>(
         initialValue = UiState.Loading,
         key1 = lifecycle,
         key2 = viewModel
     ) {
         lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
-            viewModel.token.collect { value = it }
+            viewModel.uiState.collect { value = it }
         }
     }
 
