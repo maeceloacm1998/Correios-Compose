@@ -39,7 +39,7 @@ fun TextFieldCustom(
     endIconImageVector: ImageVector? = null,
     endIconDescription: String = "",
     endIconListener: (() -> Unit)? = null,
-    error: Boolean = true
+    error: Boolean = false
 ) {
     var text by rememberSaveable { mutableStateOf("") }
     var passwordHidden by rememberSaveable { mutableStateOf(isPasswordToggle) }

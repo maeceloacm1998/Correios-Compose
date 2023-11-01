@@ -30,7 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -39,6 +38,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.puc.correios.R
 import com.puc.correios.components.textfield.TextFieldCustom
 import com.puc.correios.core.utils.UiState
+import com.puc.correios.ui.theme.CustomDimensions
 import com.puc.correios.ui.theme.Secondary
 import com.puc.correios.ui.theme.Surface
 import com.puc.correios.ui.theme.SurfaceLight
@@ -88,9 +88,12 @@ fun Header() {
             .fillMaxWidth()
             .background(
                 color = SurfaceLight,
-                shape = RoundedCornerShape(bottomStart = 50f, bottomEnd = 50f)
+                shape = RoundedCornerShape(
+                    bottomStart = CustomDimensions.shape50,
+                    bottomEnd = CustomDimensions.shape50
+                )
             )
-            .padding(horizontal = 24.dp, vertical = 30.dp)
+            .padding(horizontal = CustomDimensions.padding24, vertical = CustomDimensions.padding30)
     ) {
         val (tfSearch) = createRefs()
 
@@ -117,7 +120,10 @@ fun HeaderUpdate() {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 10.dp),
+            .padding(
+                horizontal = CustomDimensions.padding24,
+                vertical = CustomDimensions.padding10
+            ),
     ) {
         val (txtLastUpdate, icon) = createRefs()
         createHorizontalChain(txtLastUpdate, icon, chainStyle = ChainStyle.SpreadInside)
@@ -161,8 +167,8 @@ fun HeaderUpdate() {
                             top.linkTo(parent.top)
                             bottom.linkTo(parent.bottom)
                         }
-                        .padding(start = 5.dp)
-                        .size(15.dp),
+                        .padding(start = CustomDimensions.padding5)
+                        .size(CustomDimensions.padding14),
                     contentDescription = "Encomenda",
                     tint = Yellow
                 )
@@ -179,19 +185,22 @@ fun ObjectItem() {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 10.dp),
+            .padding(
+                horizontal = CustomDimensions.padding24,
+                vertical = CustomDimensions.padding10
+            ),
         colors = CardDefaults.cardColors(
             containerColor = SurfaceLight
         ),
         onClick = {},
-        shape = RoundedCornerShape(30f)
+        shape = RoundedCornerShape(CustomDimensions.shape30)
     )
     {
         ConstraintLayout(
             modifier = Modifier
                 .background(color = SurfaceLight)
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(CustomDimensions.padding16)
         ) {
             val (flightIcon, txtObjectName, txtLastDate) = createRefs()
             createVerticalChain(txtObjectName, txtLastDate, chainStyle = ChainStyle.SpreadInside)
@@ -205,8 +214,8 @@ fun ObjectItem() {
                         start.linkTo(parent.start)
                         bottom.linkTo(parent.bottom)
                     }
-                    .padding(end = 24.dp)
-                    .size(50.dp),
+                    .padding(end = CustomDimensions.padding24)
+                    .size(CustomDimensions.padding50),
                 contentDescription = "Encomenda",
                 tint = Yellow
             )
@@ -233,7 +242,7 @@ fun ObjectItem() {
                         end.linkTo(parent.end)
                         width = Dimension.fillToConstraints
                     }
-                    .padding(top = 10.dp),
+                    .padding(top = CustomDimensions.padding10),
                 style = MaterialTheme.typography.titleSmall,
                 color = Color.White,
                 text = "Ultima data de atualização: 20/02/2023"
