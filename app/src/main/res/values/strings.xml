@@ -11,6 +11,8 @@
     <string name="home_text_field_search_placeholder">AA9999999999BR</string>
     <string name="home_text_field_search_label">Digite o código de rastreio</string>
     <string name="home_text_field_search_icon_description">Buscar Código de Rastreio</string>
+    <string name="home_text_field_last_update_title">Ultimas atualizações</string>
+    <string name="home_text_field_update_title">Atualizar</string>
 
 
 </resources>

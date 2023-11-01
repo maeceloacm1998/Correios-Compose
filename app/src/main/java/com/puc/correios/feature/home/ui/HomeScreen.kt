@@ -136,7 +136,7 @@ fun HeaderUpdate() {
             },
             style = MaterialTheme.typography.titleSmall,
             color = Secondary,
-            text = "Ultimas atualizações"
+            text = stringResource(R.string.home_text_field_last_update_title)
         )
 
         TextButton(modifier = Modifier
@@ -157,7 +157,7 @@ fun HeaderUpdate() {
                     },
                     style = MaterialTheme.typography.titleSmall,
                     color = Secondary,
-                    text = "Atualizar"
+                    text = stringResource(R.string.home_text_field_update_title)
                 )
                 Icon(
                     imageVector = Icons.Filled.Update,
@@ -169,7 +169,7 @@ fun HeaderUpdate() {
                         }
                         .padding(start = CustomDimensions.padding5)
                         .size(CustomDimensions.padding14),
-                    contentDescription = "Encomenda",
+                    contentDescription = stringResource(R.string.home_text_field_update_title),
                     tint = Yellow
                 )
             }
