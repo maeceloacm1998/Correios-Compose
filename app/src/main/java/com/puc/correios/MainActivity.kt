@@ -16,6 +16,7 @@ import com.puc.correios.core.network.RetrofitDependencyInjection
 import com.puc.correios.core.routes.Routes
 import com.puc.correios.feature.home.data.di.HomeDependencyInjection
 import com.puc.correios.feature.home.ui.HomeScreen
+import com.puc.correios.feature.home.ui.Screen
 import com.puc.correios.feature.login.data.di.LoginDependencyInjection
 import com.puc.correios.feature.login.ui.LoginScreen
 import com.puc.correios.ui.theme.CorreiosTheme
@@ -61,7 +62,7 @@ class MainActivity : ComponentActivity() {
 
         NavHost(navController = navController, startDestination = Routes.Home.route) {
             composable(Routes.Login.route) { LoginScreen(navController = navController) }
-            composable(Routes.Home.route) { HomeScreen() }
+            composable(Routes.Home.route) { Screen() }
             composable(Routes.Details.route) {}
         }
     }
