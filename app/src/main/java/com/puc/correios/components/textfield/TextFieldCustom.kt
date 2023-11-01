@@ -8,6 +8,7 @@ import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -21,7 +22,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import com.puc.correios.ui.theme.DarkBlue
+import com.puc.correios.ui.theme.Secondary
 import com.puc.correios.ui.theme.Yellow
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,6 +30,7 @@ import com.puc.correios.ui.theme.Yellow
 fun TextFieldCustom(
     label: String,
     placeholder: String = "",
+    supportText: String = "",
     keyboardType: KeyboardType = KeyboardType.Text,
     isPasswordToggle: Boolean = false,
     maxLines: Int = 1,
@@ -36,26 +38,40 @@ fun TextFieldCustom(
     onChangeListener: (text: String) -> Unit,
     endIconImageVector: ImageVector? = null,
     endIconDescription: String = "",
-    endIconListener: (() -> Unit)? = null
+    endIconListener: (() -> Unit)? = null,
+    error: Boolean = true
 ) {
     var text by rememberSaveable { mutableStateOf("") }
     var passwordHidden by rememberSaveable { mutableStateOf(isPasswordToggle) }
 
     OutlinedTextField(
-        value = text,
-        modifier = modifier ?: Modifier.fillMaxWidth(),
-        onValueChange = {
+        text,
+        {
             text = it
             onChangeListener(it)
         },
-        label = { Text(text = label, color = Yellow) },
-        placeholder = { Text(placeholder) },
+        modifier ?: Modifier.fillMaxWidth(),
+        label = {
+            Text(
+                text = label,
+                color = if (error) MaterialTheme.colorScheme.error else Yellow
+            )
+        },
+        placeholder = { Text(placeholder, color = Secondary) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Yellow
+            focusedBorderColor = Yellow,
+            errorLabelColor = MaterialTheme.colorScheme.error
         ),
         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
         visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
         maxLines = maxLines,
+        isError = error,
+        supportingText = {
+            Text(
+                supportText,
+                color = if (error) MaterialTheme.colorScheme.error else Yellow
+            )
+        },
         trailingIcon = {
             if (isPasswordToggle) {
                 IconButton(onClick = { passwordHidden = !passwordHidden }) {
@@ -65,7 +81,7 @@ fun TextFieldCustom(
                     Icon(
                         imageVector = visibilityIcon,
                         contentDescription = description,
-                        tint = Yellow
+                        tint = if (error) MaterialTheme.colorScheme.error else Yellow
                     )
                 }
             } else {
@@ -74,7 +90,7 @@ fun TextFieldCustom(
                         Icon(
                             imageVector = it,
                             contentDescription = endIconDescription,
-                            tint = Yellow
+                            tint = if (error) MaterialTheme.colorScheme.error else Yellow
                         )
                     }
                 }
