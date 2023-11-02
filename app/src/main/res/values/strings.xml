@@ -9,10 +9,18 @@
     <string name="login_text_field_password_label">Senha</string>
 
     <string name="home_text_field_search_placeholder">AA9999999999BR</string>
+    <string name="home_text_field_search_support_text">Digite o código do seu produto postado nos correios. Ex: AA9999999999BR</string>
+    <string name="home_text_field_search_support_text_error">Texto não é um objeto válido. Ex: AA9999999999BR</string>
     <string name="home_text_field_search_label">Digite o código de rastreio</string>
     <string name="home_text_field_search_icon_description">Buscar Código de Rastreio</string>
     <string name="home_text_field_last_update_title">Ultimas atualizações</string>
     <string name="home_text_field_update_title">Atualizar</string>
+    <string name="home_text_card_last_date">Ultima data de atualização: %s</string>
+    <string name="home_empty_list_text_description">Nenhum produto pesquisado</string>
+    <string name="home_empty_list_icon_description">error</string>
 
+    <string name="error_state_text_retry_title">Tentar novamente</string>
+    <string name="error_state_text_description_title">Ops, aconteceu algum problema :(</string>
+    <string name="error_state_icon_description">error de conexao</string>
 
 </resources>

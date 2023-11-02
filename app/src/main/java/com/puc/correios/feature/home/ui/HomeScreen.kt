@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -43,6 +44,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.puc.correios.R
+import com.puc.correios.components.error.ErrorState
+import com.puc.correios.components.loading.LoadingState
 import com.puc.correios.components.textfield.TextFieldCustom
 import com.puc.correios.core.routes.Routes
 import com.puc.correios.core.utils.UiState
@@ -64,18 +67,27 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = koinView
             viewModel.uiState.collect { value = it }
         }
     }
+    val errorMessage = viewModel.errorSearchCode.observeAsState(false)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Surface)
     ) {
-        Header(navController)
+        Header(navController, errorMessage.value) { searchCode ->
+            viewModel.validateSearchCode(
+                searchCode = searchCode,
+                onNavigation = { cod ->
+                    navController.navigate(Routes.Details.createRoute(cod))
+                }
+            )
+        }
+
         HeaderUpdate { viewModel.updateUiState() }
 
         when (uiState) {
-            is UiState.Error -> TODO()
-            UiState.Loading -> EmptyEventList()
+            is UiState.Error -> ErrorState { viewModel.updateUiState() }
+            UiState.Loading -> LoadingState()
             is UiState.Success -> {
                 val homeEventsModel = (uiState as UiState.Success).response
                 if (homeEventsModel.isEmpty()) {
@@ -89,8 +101,12 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = koinView
 }
 
 @Composable
-fun Header(navController: NavController) {
-    var search by rememberSaveable { mutableStateOf("") }
+fun Header(
+    navController: NavController,
+    error: Boolean,
+    onClickSearchListener: (searchCode: String) -> Unit
+) {
+    var searchCode by rememberSaveable { mutableStateOf("") }
 
     ConstraintLayout(
         modifier = Modifier
@@ -112,13 +128,24 @@ fun Header(navController: NavController) {
             width = Dimension.fillToConstraints
         },
             imeAction = ImeAction.Go,
-            keyboardActions = KeyboardActions(onGo = { navController.navigate(Routes.Details.route) }),
-            onChangeListener = { search = it },
+            keyboardActions = KeyboardActions(onGo = {
+                navController.navigate(
+                    Routes.Details.createRoute(searchCode)
+                )
+            }),
+            onChangeListener = { searchCode = it },
             placeholder = stringResource(R.string.home_text_field_search_placeholder),
             label = stringResource(R.string.home_text_field_search_label),
+            error = error,
+            maxLength = 13,
+            supportText = if (error) {
+                stringResource(R.string.home_text_field_search_support_text_error)
+            } else {
+                stringResource(R.string.home_text_field_search_support_text)
+            },
             endIconImageVector = Icons.Filled.Search,
             endIconDescription = stringResource(R.string.home_text_field_search_icon_description),
-            endIconListener = { navController.navigate(Routes.Details.route) })
+            endIconListener = { onClickSearchListener(searchCode) })
     }
 }
 
@@ -203,7 +230,7 @@ fun EmptyEventList() {
                     bottom.linkTo(txtEvent.top)
                 },
             imageVector = Icons.Filled.FlightTakeoff,
-            contentDescription = "aviao",
+            contentDescription = stringResource(R.string.home_empty_list_icon_description),
             tint = Secondary
         )
 
@@ -218,7 +245,7 @@ fun EmptyEventList() {
                 },
             style = MaterialTheme.typography.titleMedium,
             color = Secondary,
-            text = "Nenhum produto pesquisado"
+            text = stringResource(R.string.home_empty_list_text_description)
         )
     }
 }
@@ -245,7 +272,7 @@ fun EventsList(navController: NavController, events: List<HomeEventsModel>) {
             .padding(vertical = CustomDimensions.padding5)) {
             items(events) { event ->
                 ObjectItem(event) { cod ->
-                    navController.navigate(Routes.Details.route)
+                    navController.navigate(Routes.Details.createRoute(cod))
                 }
             }
         }
@@ -318,7 +345,7 @@ fun ObjectItem(event: HomeEventsModel, onClickItemListener: (cod: String) -> Uni
                 .padding(top = CustomDimensions.padding10),
                 style = MaterialTheme.typography.titleSmall,
                 color = Secondary,
-                text = "Ultima data de atualização: ${event.lastDate}")
+                text = stringResource(R.string.home_text_card_last_date, event.lastDate))
         }
     }
 }
@@ -326,7 +353,13 @@ fun ObjectItem(event: HomeEventsModel, onClickItemListener: (cod: String) -> Uni
 @Preview
 @Composable
 fun HeaderPreview() {
-    Header(rememberNavController())
+    Header(rememberNavController(), false) {}
+}
+
+@Preview
+@Composable
+fun HeaderWithErrorPreview() {
+    Header(rememberNavController(), true) {}
 }
 
 @Preview

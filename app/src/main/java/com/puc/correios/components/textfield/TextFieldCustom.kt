@@ -38,6 +38,7 @@ fun TextFieldCustom(
     keyboardActions: KeyboardActions? = null,
     isPasswordToggle: Boolean = false,
     maxLines: Int = 1,
+    maxLength: Int = 100,
     onChangeListener: (text: String) -> Unit,
     endIconImageVector: ImageVector? = null,
     endIconDescription: String = "",
@@ -48,26 +49,25 @@ fun TextFieldCustom(
     var passwordHidden by rememberSaveable { mutableStateOf(isPasswordToggle) }
 
     OutlinedTextField(
-        text,
-        {
-            text = it
-            onChangeListener(it)
+        value = text,
+        onValueChange = {
+            if (it.length <= maxLength) {
+                text = it
+                onChangeListener(it)
+            }
         },
         modifier,
         label = {
             Text(
-                text = label,
-                color = if (error) MaterialTheme.colorScheme.error else Yellow
+                text = label, color = if (error) MaterialTheme.colorScheme.error else Yellow
             )
         },
         placeholder = { Text(placeholder, color = Secondary) },
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Yellow,
-            errorLabelColor = MaterialTheme.colorScheme.error
+            focusedBorderColor = Yellow, errorLabelColor = MaterialTheme.colorScheme.error
         ),
         keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = keyboardType,
-            imeAction = imeAction
+            keyboardType = keyboardType, imeAction = imeAction
         ),
         keyboardActions = keyboardActions ?: KeyboardActions { },
         visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
@@ -75,8 +75,7 @@ fun TextFieldCustom(
         isError = error,
         supportingText = {
             Text(
-                supportText,
-                color = if (error) MaterialTheme.colorScheme.error else Yellow
+                supportText, color = if (error) MaterialTheme.colorScheme.error else Yellow
             )
         },
         trailingIcon = {

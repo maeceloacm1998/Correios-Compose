@@ -1,5 +1,7 @@
 package com.puc.correios.feature.home.ui
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.puc.correios.core.utils.UiState
@@ -19,6 +21,8 @@ class HomeViewModel(val getHomeEventsUseCase: GetHomeEventsUseCase) : ViewModel(
         getHomeEventsUseCase().map { UiState.Success(it) }.catch { UiState.Error(it) }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000L), UiState.Loading)
 
+    private val _errorSearchCode = MutableLiveData<Boolean>()
+    val errorSearchCode: LiveData<Boolean> = _errorSearchCode
 
     fun updateUiState() {
         viewModelScope.launch {
@@ -34,6 +38,20 @@ class HomeViewModel(val getHomeEventsUseCase: GetHomeEventsUseCase) : ViewModel(
             }
         }
     }
+
+    fun validateSearchCode(searchCode: String, onNavigation: (searchCode: String) -> Unit) {
+        if (isNotValidateSearchCode(searchCode)) {
+            _errorSearchCode.value = true
+        } else {
+            onNavigation(searchCode)
+        }
+    }
+
+    private fun isNotValidateSearchCode(searchCode: String): Boolean {
+        val searchCodeRegex = Regex("[A-Za-z]{2}\\d{9}[A-Za-z]{2}")
+        return !searchCodeRegex.matches(searchCode)
+    }
+
     // Exemplo uso stateFlow com API
 //    private val _token = MutableStateFlow<UiState<Unit>>(UiState.Loading)
 //    val token: StateFlow<UiState<Unit>> = _token
@@ -54,5 +72,4 @@ class HomeViewModel(val getHomeEventsUseCase: GetHomeEventsUseCase) : ViewModel(
 //            }
 //        }
 //    }
-
 }

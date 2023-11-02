@@ -9,9 +9,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.puc.correios.core.routes.Routes
 import com.puc.correios.feature.commons.database.events.di.EventsDatabaseDependencyInjection
 import com.puc.correios.feature.details.ui.DetailsScreen
@@ -64,7 +66,12 @@ class MainActivity : ComponentActivity() {
         NavHost(navController = navController, startDestination = Routes.Home.route) {
             composable(Routes.Login.route) { LoginScreen(navController = navController) }
             composable(Routes.Home.route) { HomeScreen(navController = navController) }
-            composable(Routes.Details.route) { DetailsScreen() }
+            composable(
+                Routes.Details.route,
+                arguments = listOf(navArgument("cod") { type = NavType.StringType })
+            ) { navBackStackEntry ->
+                DetailsScreen(navController, navBackStackEntry.arguments?.getString("code"))
+            }
         }
     }
 }
