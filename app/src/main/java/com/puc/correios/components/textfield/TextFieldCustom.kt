@@ -1,6 +1,6 @@
 package com.puc.correios.components.textfield
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -19,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -28,13 +29,15 @@ import com.puc.correios.ui.theme.Yellow
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFieldCustom(
+    modifier: Modifier = Modifier,
     label: String,
     placeholder: String = "",
     supportText: String = "",
     keyboardType: KeyboardType = KeyboardType.Text,
+    imeAction: ImeAction = ImeAction.Go,
+    keyboardActions: KeyboardActions? = null,
     isPasswordToggle: Boolean = false,
     maxLines: Int = 1,
-    modifier: Modifier? = null,
     onChangeListener: (text: String) -> Unit,
     endIconImageVector: ImageVector? = null,
     endIconDescription: String = "",
@@ -50,7 +53,7 @@ fun TextFieldCustom(
             text = it
             onChangeListener(it)
         },
-        modifier ?: Modifier.fillMaxWidth(),
+        modifier,
         label = {
             Text(
                 text = label,
@@ -62,7 +65,11 @@ fun TextFieldCustom(
             focusedBorderColor = Yellow,
             errorLabelColor = MaterialTheme.colorScheme.error
         ),
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
+        keyboardOptions = KeyboardOptions.Default.copy(
+            keyboardType = keyboardType,
+            imeAction = imeAction
+        ),
+        keyboardActions = keyboardActions ?: KeyboardActions { },
         visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
         maxLines = maxLines,
         isError = error,
