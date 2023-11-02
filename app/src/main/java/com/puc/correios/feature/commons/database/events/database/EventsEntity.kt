@@ -1,5 +1,6 @@
 package com.puc.correios.feature.commons.database.events.database
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,15 +8,10 @@ import androidx.room.PrimaryKey
 data class EventsEntity(
     @PrimaryKey
     val id: Int,
-    val cod: String,
-    val host: String,
-    val events: List<Event>,
-    val lastDate: String
-)
 
-data class Event(
-    val date: String,
-    val hour: String,
-    val localization: String,
-    val status: String,
+    @ColumnInfo(name = "cod")
+    val cod: String,
+
+    @ColumnInfo(name = "lastDate")
+    val lastDate: String
 )

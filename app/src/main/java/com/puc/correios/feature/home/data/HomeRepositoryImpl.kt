@@ -11,8 +11,6 @@ class HomeRepositoryImpl(eventsDAO: EventsDAO) : HomeRepository {
             HomeEventsModel(
                 id = System.currentTimeMillis().hashCode(),
                 cod = it.cod,
-                host = it.host,
-                events = it.events,
                 lastDate = it.lastDate
             )
         }
