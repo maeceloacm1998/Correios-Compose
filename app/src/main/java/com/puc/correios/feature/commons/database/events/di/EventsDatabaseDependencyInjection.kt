@@ -5,14 +5,14 @@ import androidx.room.Room
 import com.puc.correios.feature.commons.database.events.database.EventsDAO
 import com.puc.correios.feature.commons.database.events.database.EventsDatabase
 import dagger.hilt.android.qualifiers.ApplicationContext
-import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 object EventsDatabaseDependencyInjection {
     private const val DATABASE_NAME = "EventsDatabase"
 
     val eventsModules = module {
-        single { provideEventsDatabase(androidApplication()) }
+        single { provideEventsDatabase(androidContext()) }
         single { provideEventsDao(get()) }
     }
 
