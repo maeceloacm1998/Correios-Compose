@@ -14,8 +14,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.puc.correios.core.routes.Routes
 import com.puc.correios.feature.commons.database.events.di.EventsDatabaseDependencyInjection
+import com.puc.correios.feature.details.ui.DetailsScreen
 import com.puc.correios.feature.home.data.di.HomeDependencyInjection
-import com.puc.correios.feature.home.ui.Screen
+import com.puc.correios.feature.home.ui.HomeScreen
 import com.puc.correios.feature.login.data.di.LoginDependencyInjection
 import com.puc.correios.feature.login.ui.LoginScreen
 import com.puc.correios.ui.theme.CorreiosTheme
@@ -62,8 +63,8 @@ class MainActivity : ComponentActivity() {
 
         NavHost(navController = navController, startDestination = Routes.Home.route) {
             composable(Routes.Login.route) { LoginScreen(navController = navController) }
-            composable(Routes.Home.route) { Screen() }
-            composable(Routes.Details.route) {}
+            composable(Routes.Home.route) { HomeScreen(navController = navController) }
+            composable(Routes.Details.route) { DetailsScreen() }
         }
     }
 }
