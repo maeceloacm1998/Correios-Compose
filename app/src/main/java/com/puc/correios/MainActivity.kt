@@ -20,8 +20,6 @@ import com.puc.correios.feature.details.data.di.DetailsDependencyInjection
 import com.puc.correios.feature.details.ui.DetailsScreen
 import com.puc.correios.feature.home.data.di.HomeDependencyInjection
 import com.puc.correios.feature.home.ui.HomeScreen
-import com.puc.correios.feature.login.data.di.LoginDependencyInjection
-import com.puc.correios.feature.login.ui.LoginScreen
 import com.puc.correios.ui.theme.CorreiosTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -53,7 +51,6 @@ class MainActivity : ComponentActivity() {
             modules(
                 listOf(
                     EventsDatabaseDependencyInjection.eventsModules,
-                    LoginDependencyInjection.loginModules,
                     HomeDependencyInjection.homeModules,
                     DetailsDependencyInjection.detailsModules
                 )
@@ -66,7 +63,6 @@ class MainActivity : ComponentActivity() {
         val navController = rememberNavController()
 
         NavHost(navController = navController, startDestination = Routes.Home.route) {
-            composable(Routes.Login.route) { LoginScreen(navController = navController) }
             composable(Routes.Home.route) { HomeScreen(navController = navController) }
             composable(
                 Routes.Details.route,
