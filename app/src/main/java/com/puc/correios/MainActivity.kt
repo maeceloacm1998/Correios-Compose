@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.puc.correios.core.routes.Routes
 import com.puc.correios.feature.commons.database.events.di.EventsDatabaseDependencyInjection
+import com.puc.correios.feature.details.data.di.DetailsDependencyInjection
 import com.puc.correios.feature.details.ui.DetailsScreen
 import com.puc.correios.feature.home.data.di.HomeDependencyInjection
 import com.puc.correios.feature.home.ui.HomeScreen
@@ -53,7 +54,8 @@ class MainActivity : ComponentActivity() {
                 listOf(
                     EventsDatabaseDependencyInjection.eventsModules,
                     LoginDependencyInjection.loginModules,
-                    HomeDependencyInjection.homeModules
+                    HomeDependencyInjection.homeModules,
+                    DetailsDependencyInjection.detailsModules
                 )
             )
         }
@@ -70,7 +72,7 @@ class MainActivity : ComponentActivity() {
                 Routes.Details.route,
                 arguments = listOf(navArgument("cod") { type = NavType.StringType })
             ) { navBackStackEntry ->
-                DetailsScreen(navController, navBackStackEntry.arguments?.getString("code"))
+                DetailsScreen(navController, navBackStackEntry.arguments?.getString("cod"))
             }
         }
     }
