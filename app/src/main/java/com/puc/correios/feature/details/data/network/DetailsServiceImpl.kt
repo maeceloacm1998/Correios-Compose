@@ -16,7 +16,7 @@ class DetailsServiceImpl : DetailsService {
 
     companion object {
         // Para conseguir o token e user, precisa entrar em contato com os devs da link e Track
-        const val TOKEN = "5a3a75f908aefaab178309e757e7104e0d24149cc23acf692c80080f5c11c2ee"
-        const val USER = "marcelochmendes@gmail.com"
+        const val TOKEN = ""
+        const val USER = ""
     }
 }

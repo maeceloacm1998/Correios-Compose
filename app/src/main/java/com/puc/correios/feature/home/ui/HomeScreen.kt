@@ -93,7 +93,9 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = koinView
                 if (homeEventsModel.isEmpty()) {
                     EmptyEventList()
                 } else {
-                    EventsList(navController, homeEventsModel)
+                    EventsList(navController, homeEventsModel) {
+                        viewModel.openBrowser()
+                    }
                 }
             }
         }
@@ -251,7 +253,11 @@ fun EmptyEventList() {
 }
 
 @Composable
-fun EventsList(navController: NavController, events: List<HomeEventsModel>) {
+fun EventsList(
+    navController: NavController,
+    events: List<HomeEventsModel>,
+    onOpenBrowser: () -> Unit
+) {
     ConstraintLayout(
         Modifier
             .fillMaxWidth()
@@ -284,9 +290,11 @@ fun EventsList(navController: NavController, events: List<HomeEventsModel>) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             }
-            .size(height = CustomDimensions.padding50, width = CustomDimensions.padding150),
+            .size(height = CustomDimensions.padding50, width = CustomDimensions.padding150)
+            .clickable { onOpenBrowser() },
             painter = painterResource(R.drawable.link_track),
-            contentDescription = "icone de link de rastreamento")
+            contentDescription = "icone de link de rastreamento"
+        )
     }
 }
 
@@ -379,5 +387,5 @@ fun ObjectItemPreview() {
 @Composable
 fun EventListPreview() {
     val events = listOf(HomeEventsModel(id = 1, cod = "teste", lastDate = "00/00/0000"))
-    EventsList(rememberNavController(), events)
+    EventsList(rememberNavController(), events) {}
 }
