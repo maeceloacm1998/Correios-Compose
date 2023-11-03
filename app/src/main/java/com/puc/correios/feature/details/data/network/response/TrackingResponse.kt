@@ -10,12 +10,11 @@ data class TrackingResponse(
     @SerializedName("quantidade") val quantity: Int,
     @SerializedName("servico") val service: String,
     @SerializedName("ultimo") val lastUpdated: String
-)
-
-data class Event(
-    @SerializedName("data") val date: String,
-    @SerializedName("hora") val time: String,
-    @SerializedName("local") val location: String,
-    @SerializedName("status") val status: String,
-    @SerializedName("subStatus") val subStatus: List<String>
-)
+) {
+    data class Event(
+        @SerializedName("data") val date: String,
+        @SerializedName("hora") val time: String,
+        @SerializedName("local") val location: String,
+        @SerializedName("status") val status: String
+    )
+}
