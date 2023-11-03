@@ -51,25 +51,4 @@ class HomeViewModel(val getHomeEventsUseCase: GetHomeEventsUseCase) : ViewModel(
         val searchCodeRegex = Regex("[A-Za-z]{2}\\d{9}[A-Za-z]{2}")
         return !searchCodeRegex.matches(searchCode)
     }
-
-    // Exemplo uso stateFlow com API
-//    private val _token = MutableStateFlow<UiState<Unit>>(UiState.Loading)
-//    val token: StateFlow<UiState<Unit>> = _token
-
-    // Exemplo uso StateFlow com API
-//    private fun fetchValidateToken() {
-//        viewModelScope.launch {
-//            try {
-//                val response = getValidateTokenUseCase().single()
-//                val notExistToken = response.authToken == null
-//                if (notExistToken) {
-//                    _token.value = UiState.Error(Throwable())
-//                } else {
-//                    _token.value = UiState.Success(Unit)
-//                }
-//            } catch (e: Exception) {
-//                _token.value = UiState.Error(e)
-//            }
-//        }
-//    }
 }

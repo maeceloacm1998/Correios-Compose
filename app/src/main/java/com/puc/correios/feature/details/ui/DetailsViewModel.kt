@@ -4,13 +4,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.puc.correios.core.utils.UiState
 import com.puc.correios.feature.details.data.network.response.TrackingResponse
+import com.puc.correios.feature.details.domain.AddTrackingInDatabaseUseCase
 import com.puc.correios.feature.details.domain.GetTrackingUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.launch
 
-class DetailsViewModel(private val getTrackingUseCase: GetTrackingUseCase) : ViewModel() {
+class DetailsViewModel(
+    private val getTrackingUseCase: GetTrackingUseCase,
+    private val addTrackingInDatabaseUseCase: AddTrackingInDatabaseUseCase
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState<TrackingResponse>>(UiState.Loading)
     val uiState: StateFlow<UiState<TrackingResponse>> = _uiState
@@ -19,6 +23,7 @@ class DetailsViewModel(private val getTrackingUseCase: GetTrackingUseCase) : Vie
         viewModelScope.launch {
             try {
                 val response = getTrackingUseCase(code).single()
+                addTrackingInDatabaseUseCase(response)
                 _uiState.value = UiState.Success(response)
             } catch (e: Exception) {
                 _uiState.value = UiState.Error(e)
