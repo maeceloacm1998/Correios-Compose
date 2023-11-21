@@ -14,11 +14,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FlightTakeoff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,6 +81,11 @@ fun DetailsScreen(
                     DetailsToolbar(response.code) {
                         navController.popBackStack()
                     }
+                    TitleBar(
+                        checked = viewModel.isNotificationEnabled(),
+                        onClickNotificationListener = {
+                            viewModel.handleNotificationEnabled(it)
+                        })
                     EventList(response.events)
                 }
             }
@@ -88,6 +97,65 @@ fun DetailsScreen(
 fun DetailsToolbar(cod: String, onBackListener: () -> Unit) {
     ToolbarCustom(title = cod, onBackListener = onBackListener)
 }
+
+@Composable
+fun TitleBar(
+    onClickNotificationListener: (checked: Boolean) -> Unit,
+    checked: Boolean = false
+) {
+    ConstraintLayout(
+        modifier = Modifier
+            .padding(
+                top = CustomDimensions.padding10,
+                end = CustomDimensions.padding24,
+                start = CustomDimensions.padding24
+            )
+            .fillMaxWidth()
+    ) {
+        val (txtTitle, swToggle, txtToggle) = createRefs()
+        var notificationToggle by rememberSaveable { mutableStateOf(checked) }
+
+        Text(
+            modifier = Modifier
+                .constrainAs(txtTitle) {
+                    start.linkTo(parent.start)
+                    top.linkTo(parent.top)
+                },
+            style = MaterialTheme.typography.titleMedium,
+            color = Secondary,
+            text = "Trajeto do seu pedido"
+        )
+
+        Switch(
+            modifier = Modifier
+                .padding(vertical = CustomDimensions.padding5)
+                .constrainAs(swToggle) {
+                    top.linkTo(txtTitle.bottom)
+                    start.linkTo(parent.start)
+                    bottom.linkTo(parent.bottom)
+                },
+            checked = notificationToggle,
+            onCheckedChange = {
+                notificationToggle = it
+                onClickNotificationListener(it)
+            }
+        )
+
+        Text(
+            modifier = Modifier
+                .padding(horizontal = CustomDimensions.padding10)
+                .constrainAs(txtToggle) {
+                    start.linkTo(swToggle.end)
+                    top.linkTo(swToggle.top)
+                    bottom.linkTo(swToggle.bottom)
+                },
+            style = MaterialTheme.typography.titleMedium,
+            color = Secondary,
+            text = "Notificaçao"
+        )
+    }
+}
+
 
 @Composable
 fun EventList(eventList: List<TrackingResponse.Event>) {
@@ -172,8 +240,7 @@ fun TrackingItem(events: TrackingResponse.Event) {
         Text(
             modifier = Modifier
                 .padding(
-                    horizontal = CustomDimensions.padding14,
-                    vertical = CustomDimensions.padding5
+                    horizontal = CustomDimensions.padding14
                 )
                 .constrainAs(txtLocalization) {
                     start.linkTo(bxIcon.end)
@@ -207,6 +274,12 @@ fun TrackingItem(events: TrackingResponse.Event) {
 @Composable
 fun DetailsToolbarPreview() {
     DetailsToolbar(cod = "teste", onBackListener = {})
+}
+
+@Preview
+@Composable
+fun TitleBarPreview() {
+    TitleBar(checked = false, onClickNotificationListener = {})
 }
 
 @Preview

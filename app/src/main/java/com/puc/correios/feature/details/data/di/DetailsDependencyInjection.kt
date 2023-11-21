@@ -16,6 +16,6 @@ object DetailsDependencyInjection {
         factory<DetailsRepository> { DetailsRepositoryImpl(get()) }
         factory { GetTrackingUseCase(get()) }
         factory { AddTrackingInDatabaseUseCase(get()) }
-        viewModel { DetailsViewModel(get(), get()) }
+        viewModel { DetailsViewModel(get(), get(), get()) }
     }
 }
