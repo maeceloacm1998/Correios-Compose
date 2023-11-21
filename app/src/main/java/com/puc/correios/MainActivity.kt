@@ -1,5 +1,6 @@
 package com.puc.correios
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,7 +15,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.puc.correios.core.notification.data.di.NotificationManagerDependencyInjection
 import com.puc.correios.core.routes.Routes
+import com.puc.correios.core.service.notificationservice.NotificationService
 import com.puc.correios.feature.commons.database.events.di.EventsDatabaseDependencyInjection
 import com.puc.correios.feature.details.data.di.DetailsDependencyInjection
 import com.puc.correios.feature.details.ui.DetailsScreen
@@ -23,7 +26,9 @@ import com.puc.correios.feature.home.ui.HomeScreen
 import com.puc.correios.ui.theme.CorreiosTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.core.KoinApplication
 import org.koin.core.context.GlobalContext.startKoin
+import org.koin.core.context.stopKoin
 
 @ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
@@ -31,6 +36,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         koinStarted()
+        serviceStarted()
 
         setContent {
             CorreiosTheme {
@@ -44,15 +50,26 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        stopKoin()
+    }
+
+    private fun serviceStarted() {
+        val serviceIntent = Intent(applicationContext, NotificationService::class.java)
+        startService(serviceIntent)
+    }
+
     private fun koinStarted() {
         startKoin {
             androidLogger()
             androidContext(this@MainActivity)
             modules(
                 listOf(
+                    NotificationManagerDependencyInjection.modules,
                     EventsDatabaseDependencyInjection.eventsModules,
                     HomeDependencyInjection.homeModules,
-                    DetailsDependencyInjection.detailsModules
+                    DetailsDependencyInjection.detailsModules,
                 )
             )
         }
