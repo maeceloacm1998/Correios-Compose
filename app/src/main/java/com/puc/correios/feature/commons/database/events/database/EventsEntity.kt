@@ -13,8 +13,5 @@ data class EventsEntity(
     val cod: String,
 
     @ColumnInfo(name = "lastDate")
-    val lastDate: String,
-
-    @ColumnInfo(name = "events")
-    val events: List<String>
+    val lastDate: String
 )
