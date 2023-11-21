@@ -12,8 +12,7 @@ class AddTrackingInDatabaseUseCase(private val dao: EventsDAO) {
                 EventsEntity(
                     id = System.currentTimeMillis().hashCode(),
                     cod = tracking.code,
-                    lastDate = DateUtils.converterData(tracking.lastUpdated),
-                    events = tracking.events.map { it.status }
+                    lastDate = DateUtils.converterData(tracking.lastUpdated)
                 )
             )
         }
